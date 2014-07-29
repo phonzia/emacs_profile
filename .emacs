@@ -30,8 +30,6 @@
 
 (add-to-list 'load-path "~/.emacs.d/")
 
-(require 'taglist)
-
 (global-set-key [f5] 'compile)
 
 (global-set-key (kbd "C-c h") 'windmove-left)
