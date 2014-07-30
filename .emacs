@@ -111,3 +111,13 @@
 
 (require 'monokai-theme)
 
+(setq org-agenda-files (list "e:/快盘/GTD/task.org"))
+
+(defun ph-kill-ring-save ()
+  (interactive)
+  (if (and mark-active transient-mark-mode)
+      (kill-ring-save (region-beginning) (region-end))
+    (kill-ring-save (line-beginning-position) (line-end-position)))
+  (message "copied"))
+
+(global-set-key (kbd "C-c w") 'ph-kill-ring-save)
