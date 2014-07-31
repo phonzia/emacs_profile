@@ -121,3 +121,9 @@
   (message "copied"))
 
 (global-set-key (kbd "C-c w") 'ph-kill-ring-save)
+
+;;org gtd
+;;;agenda
+(global-set-key (kbd "C-c a") 'org-agenda)
+(setq org-agenda-files (list "e:/快盘/GTD/task.org"))
+(setq org-todo-keywords '((type "TODO" "STARTED" "WAITING" "|" "DONE" "CANCELLED")))
