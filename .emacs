@@ -111,8 +111,6 @@
 
 (require 'monokai-theme)
 
-(setq org-agenda-files (list "e:/快盘/GTD/task.org"))
-
 (defun ph-kill-ring-save ()
   (interactive)
   (if (and mark-active transient-mark-mode)
@@ -125,5 +123,5 @@
 ;;org gtd
 ;;;agenda
 (global-set-key (kbd "C-c a") 'org-agenda)
-(setq org-agenda-files (list "e:/快盘/GTD/task.org"))
+(setq org-agenda-files (list "~/KuaiPan/GTD/task.org"))
 (setq org-todo-keywords '((type "TODO" "STARTED" "WAITING" "|" "DONE" "CANCELLED")))
