@@ -125,3 +125,5 @@
 (global-set-key (kbd "C-c a") 'org-agenda)
 (setq org-agenda-files (list "~/KuaiPan/GTD/task.org"))
 (setq org-todo-keywords '((type "TODO" "STARTED" "WAITING" "|" "DONE" "CANCELLED")))
+(setq org-log-done 'time)
+(setq org-log-done 'note)
