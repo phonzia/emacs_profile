@@ -14,7 +14,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:family "Envy Code R" :foundry "outline" :slant normal :weight normal :height 98 :width normal)))))
+ )
+
+(setq visible-bell t)
+(setq frame-title-format "emacs@%b")
+(auto-image-file-mode)
 
 (defun indent-whole ()
   (interactive)
@@ -127,3 +131,10 @@
 (setq org-todo-keywords '((type "TODO" "STARTED" "WAITING" "|" "DONE" "CANCELLED")))
 (setq org-log-done 'time)
 (setq org-log-done 'note)
+
+;;w3m
+(require 'w3m)
+(setq w3m-default-display-inline-images t)
+
+;;markdown
+(require 'markdown-mode)
