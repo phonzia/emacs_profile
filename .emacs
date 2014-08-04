@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (adwaita)))
  '(ecb-layout-window-sizes (quote (("leftright1" (ecb-directories-buffer-name 0.2 . 0.33) (ecb-sources-buffer-name 0.2 . 0.33) (ecb-history-buffer-name 0.2 . 0.33) (ecb-methods-buffer-name 0.25 . 0.9629629629629629)))))
  '(ecb-options-version "2.40")
  '(ecb-source-path (quote (("/" "/"))))
@@ -14,7 +15,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "M+ 2c" :foundry "unknown" :slant normal :weight normal :height 98 :width normal)))))
 
 (setq visible-bell t)
 (setq frame-title-format "emacs@%b")
@@ -113,8 +114,6 @@
 (global-auto-complete-mode t)
 (setq ac-auto-show-menu 0.01)
 
-(require 'monokai-theme)
-
 (defun ph-kill-ring-save ()
   (interactive)
   (if (and mark-active transient-mark-mode)
@@ -138,3 +137,4 @@
 
 ;;markdown
 (require 'markdown-mode)
+
