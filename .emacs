@@ -138,3 +138,13 @@
 ;;markdown
 (require 'markdown-mode)
 
+(global-set-key (kbd "C-c ]") 
+                (lambda () 
+                (interactive)
+                (bookmark-set "jump") 
+                (semantic-ia-fast-jump (point))
+                ))
+(global-set-key (kbd "C-c m") 'bookmark-set)
+(global-set-key (kbd "C-c b") (lambda() 
+                                (interactive)
+                                (bookmark-jump "jump")))
