@@ -114,14 +114,20 @@
 (global-auto-complete-mode t)
 (setq ac-auto-show-menu 0.01)
 
-(defun ph-kill-ring-save ()
-  (interactive)
-  (if (and mark-active transient-mark-mode)
-      (kill-ring-save (region-beginning) (region-end))
-    (kill-ring-save (line-beginning-position) (line-end-position)))
-  (message "copied"))
-
-(global-set-key (kbd "C-c w") 'ph-kill-ring-save)
+;;copy n lines
+(defun my-copy-lines(num)
+  (point-to-register 0)
+  (beginning-of-line)
+  (let ((begin-point (point)))
+    (forward-line num)
+    (copy-region-as-kill begin-point (point)))
+  (jump-to-register 0)) 
+(defun my-copy-by-line(n)
+  (interactive "p")
+  (my-copy-lines n)
+  (next-line n)
+  )
+(global-set-key (kbd "C-c w") 'my-copy-by-line)
 
 ;;org gtd
 ;;;agenda
