@@ -154,3 +154,69 @@
 (global-set-key (kbd "C-c b") (lambda() 
                                 (interactive)
                                 (bookmark-jump "jump")))
+                                
+(setq split-width-threshold 200)
+
+;;powerline
+(require 'powerline)
+(powerline-default-theme)
+(defun graphic-powerline-config ()  
+  "powerline setting for graphic"  
+  (interactive)  
+  (progn  
+    (setq powerline-arrow-shape 'arrow)
+    (custom-set-faces
+     '(mode-line ((t (:foreground "white" :background "#0044cc" :box nil))))
+     '(mode-line-inactive ((t (:foreground "white" :background "#262626" :box nil))))
+     )
+    (setq powerline-color1 "#0088cc")
+    (setq powerline-color2 "white")
+    ))
+(graphic-powerline-config)
+
+;;helm
+(require 'helm-config)
+(helm-mode t)
+
+(setq
+ helm-gtags-ignore-case t
+ helm-gtags-auto-update t
+ helm-gtags-use-input-at-cursor t
+ helm-gtags-pulse-at-cursor t
+ helm-gtags-prefix-key "\C-cg"
+ helm-gtags-suggested-key-mapping t
+ )
+
+(require 'helm-gtags)
+;; Enable helm-gtags-mode
+(add-hook 'dired-mode-hook 'helm-gtags-mode)
+(add-hook 'eshell-mode-hook 'helm-gtags-mode)
+(add-hook 'c-mode-hook 'helm-gtags-mode)
+(add-hook 'c++-mode-hook 'helm-gtags-mode)
+(add-hook 'asm-mode-hook 'helm-gtags-mode)
+
+(define-key helm-gtags-mode-map (kbd "C-c g a") 'helm-gtags-tags-in-this-function)
+(define-key helm-gtags-mode-map (kbd "C-c g s") 'helm-gtags-select)
+(define-key helm-gtags-mode-map (kbd "M-.") 'helm-gtags-dwim)
+(define-key helm-gtags-mode-map (kbd "M-,") 'helm-gtags-pop-stack)
+(define-key helm-gtags-mode-map (kbd "C-c <") 'helm-gtags-previous-history)
+(define-key helm-gtags-mode-map (kbd "C-c >") 'helm-gtags-next-history)
+(define-key helm-gtags-mode-map (kbd "C-j") 'helm-semantic-or-imenu)
+
+;;ggtags
+(require 'ggtags)
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
+              (ggtags-mode 1))))
+
+(define-key ggtags-mode-map (kbd "C-c g y") 'ggtags-find-other-symbol)
+(define-key ggtags-mode-map (kbd "C-c g h") 'ggtags-view-tag-history)
+(define-key ggtags-mode-map (kbd "C-c g r") 'ggtags-find-reference)
+(define-key ggtags-mode-map (kbd "C-c g f") 'ggtags-find-file)
+(define-key ggtags-mode-map (kbd "C-c g c") 'ggtags-create-tags)
+(define-key ggtags-mode-map (kbd "C-c g u") 'ggtags-update-tags)
+
+(require 'function-args)
+(fa-config-default)
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
