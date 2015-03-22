@@ -22,7 +22,8 @@
     switch-window
     zenburn-theme
     undo-tree
-    magit))
+    magit
+    sr-speedbar))
 
 (defun install-packages ()
   "Install all required packages."
