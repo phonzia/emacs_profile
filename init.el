@@ -15,7 +15,6 @@
     ace-jump-mode
     auto-complete
     powerline
-    switch-window
     zenburn-theme
     thrift
     undo-tree
@@ -298,7 +297,6 @@
 (require 'ace-jump-mode)
 (define-key global-map (kbd "C-c SPC") 'ace-jump-mode)
 (define-key global-map (kbd "C-x SPC") 'ace-jump-mode-pop-mark)
-(global-set-key (kbd "C-x o") 'switch-window)
 
 ;;magit
 (global-set-key (kbd "C-x g") 'magit-status)
