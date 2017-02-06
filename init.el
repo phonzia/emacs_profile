@@ -1,28 +1,28 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Package management
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (package-initialize)
 
 (defconst demo-packages
-  '(ecb
-    ggtags
+  '(ggtags
     helm
     helm-gtags
-    function-args
     yasnippet
     smartparens
     molokai-theme
     ace-jump-mode
     auto-complete
     powerline
-    zenburn-theme
+    markdown-mode
     thrift
+    go
     undo-tree
-    evil
-    solarized-theme
     tango-plus-theme
-    auto-complete-clang
-    magit))
+    magit
+    magit-svn
+    function-args
+    ))
 
 (defun install-packages ()
   "Install all required packages."
@@ -36,6 +36,11 @@
 (install-packages)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; config
+(setq mac-option-modifier 'meta)
+(setq mac-command-modifier 'super)
+
+(server-start)
+
 (global-set-key (kbd "RET") 'newline-and-indent)
 ;;tab stop
 (setq default-tab-width 4)
@@ -45,6 +50,7 @@
 
 ;;set backup dir
 (setq backup-directory-alist (quote (("." . "~/.backups"))))
+(setq auto-save-default nil)
 
 ;;show line number
 (global-linum-mode t)
@@ -87,8 +93,7 @@
 (set-default 'semantic-case-fold t)
 (semantic-mode 1)
 (defconst user-include-dirs
-  (list ".." "../include" "../inc" "../common" "../public" "../gen-cpp" "../../gen-cpp"
-        "../.." "../../include" "../../inc" "../../common" "../../public" "../../.."))
+  (list "../services_sdk_new/include" "../services_sdk_new/adapter" "../services_sdk_new/server" "../services_sdk_new" "../../protocol" "../../core" "../../core/sox" "../../core/corelib" "../../common" "../../" "../../common/core" "../../common/occi" "../../server_common/helper" "../thrift0.6.1" "../vip2_dao" "../vip_pk_thrift_client_lib/gen-cpp" "../../server_common/" "../"))
 (let ((include-dirs user-include-dirs))
   (mapc (lambda (dir)
           (semantic-add-system-include dir 'c++-mode)
@@ -184,26 +189,20 @@
 (require 'yasnippet)
 (yas-global-mode t)
 
-;;ecb
-(require 'ecb)
-(global-set-key [f6] 'ecb-toggle-ecb-windows)
-;;(ecb-activate)
-
 ;;auto complete
 (require 'auto-complete)
 (require 'auto-complete-config)
 (setq ac-fuzzy-enable t)
 (setq ac-quick-help-delay 1.0)
-(setq ac-delay 0.1)
-(setq ac-auto-show-menu 0.01)
+(setq ac-delay 0.5)
+(setq ac-auto-show-menu 0.5)
 (setq ac-dwim t)
 (global-auto-complete-mode t)
 (require 'auto-complete-clang)
 (setq ac-clang-auto-save t)
 (setq ac-auto-start t)
 (setq ac-quick-help-delay 0.5)
-;; (ac-set-trigger-key "TAB")
-;; (define-key ac-mode-map  [(control tab)] 'auto-complete)
+(ac-set-trigger-key "TAB")
 (define-key ac-mode-map  [(control tab)] 'auto-complete)
 (defun my-ac-config ()
   (setq ac-clang-flags
@@ -217,20 +216,8 @@
  /usr/lib/gcc/x86_64-linux-gnu/4.3.3/include
  /usr/lib/gcc/x86_64-linux-gnu/4.3.3/include-fixed
  /usr/include
- /usr/include/mysql
-/home/yangfengjia/project/diamond/vip_lib
-/home/yangfengjia/project/diamond/vip2_dao
-/home/yangfengjia/project/diamond/dao_rdf
-/home/yangfengjia/project/common
-/home/yangfengjia/project/common
-/home/yangfengjia/project/protocol
-/home/yangfengjia/project/common/occi
-/home/yangfengjia/project/server_common
-/home/yangfengjia/project/diamond/thrift0.6.1
-/home/yangfengjia/project/
 ../
 ../../
-./gen-cpp
  ")))
   (setq-default ac-sources '(ac-source-abbrev ac-source-dictionary ac-source-words-in-same-mode-buffers))
   (add-hook 'emacs-lisp-mode-hook 'ac-emacs-lisp-mode-setup)
@@ -253,13 +240,14 @@
 (require 'helm-config)
 (require 'helm-gtags)
 (setq helm-gtags-ignore-case t
- helm-gtags-auto-update t
- helm-gtags-use-input-at-cursor t
- helm-gtags-pulse-at-cursor t
- helm-gtags-prefix-key "\C-cg"
- helm-gtags-suggested-key-mapping t
- )
+      helm-gtags-auto-update t
+      helm-gtags-use-input-at-cursor t
+      helm-gtags-pulse-at-cursor t
+      helm-gtags-prefix-key "\C-cg"
+      helm-gtags-suggested-key-mapping t
+      )
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Enable helm-gtags-mode
 (add-hook 'dired-mode-hook 'helm-gtags-mode)
@@ -308,101 +296,18 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#3F3F3F" "#CC9393" "#7F9F7F" "#F0DFAF" "#8CD0D3" "#DC8CC3" "#93E0E3" "#DCDCCC"])
- '(compilation-message-face (quote default))
- '(cua-global-mark-cursor-color "#2aa198")
- '(cua-normal-cursor-color "#657b83")
- '(cua-overwrite-cursor-color "#b58900")
- '(cua-read-only-cursor-color "#859900")
  '(custom-enabled-themes (quote (tsdh-dark)))
- '(custom-safe-themes
+ '(menu-bar-mode nil)
+ '(package-selected-packages
    (quote
-    ("9cb6358979981949d1ae9da907a5d38fb6cde1776e8956a1db150925f2dad6c1" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "11636897679ca534f0dec6f5e3cb12f28bf217a527755f6b9e744bd240ed47e1" "b571f92c9bfaf4a28cb64ae4b4cdbda95241cd62cf07d942be44dc8f46c491f4" "0e121ff9bef6937edad8dfcff7d88ac9219b5b4f1570fd1702e546a80dba0832" "3c093ea152d7185cc78b61b05e52648c6d2fb0d8579c2119d775630fa459e0be" default)))
- '(ecb-layout-window-sizes
-   (quote
-    (("leftright2"
-      (ecb-directories-buffer-name 0.18888888888888888 . 0.6304347826086957)
-      (ecb-sources-buffer-name 0.18888888888888888 . 0.32608695652173914)
-      (ecb-methods-buffer-name 0.1962962962962963 . 0.6304347826086957)
-      (ecb-history-buffer-name 0.1962962962962963 . 0.32608695652173914))
-     ("left8"
-      (ecb-directories-buffer-name 0.21851851851851853 . 0.2826086956521739)
-      (ecb-sources-buffer-name 0.21851851851851853 . 0.21739130434782608)
-      (ecb-methods-buffer-name 0.21851851851851853 . 0.2826086956521739)
-      (ecb-history-buffer-name 0.21851851851851853 . 0.17391304347826086)))))
- '(ecb-options-version "2.40")
- '(ecb-source-path (quote (("/" "/"))))
- '(fci-rule-color "#383838")
- '(highlight-changes-colors (quote ("#d33682" "#6c71c4")))
- '(highlight-symbol-colors
-   (--map
-    (solarized-color-blend it "#fdf6e3" 0.25)
-    (quote
-     ("#b58900" "#2aa198" "#dc322f" "#6c71c4" "#859900" "#cb4b16" "#268bd2"))))
- '(highlight-symbol-foreground-color "#586e75")
- '(highlight-tail-colors
-   (quote
-    (("#eee8d5" . 0)
-     ("#B4C342" . 20)
-     ("#69CABF" . 30)
-     ("#69B7F0" . 50)
-     ("#DEB542" . 60)
-     ("#F2804F" . 70)
-     ("#F771AC" . 85)
-     ("#eee8d5" . 100))))
- '(hl-bg-colors
-   (quote
-    ("#DEB542" "#F2804F" "#FF6E64" "#F771AC" "#9EA0E5" "#69B7F0" "#69CABF" "#B4C342")))
- '(hl-fg-colors
-   (quote
-    ("#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3" "#fdf6e3")))
- '(inhibit-startup-screen t)
- '(magit-diff-use-overlays nil)
- '(nrepl-message-colors
-   (quote
-    ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
- '(pos-tip-background-color "#eee8d5")
- '(pos-tip-foreground-color "#586e75")
+    (ecb magit-svn go-mode go yasnippet undo-tree thrift tango-plus-theme smartparens powerline molokai-theme markdown-mode magit helm-gtags ggtags function-args auto-complete-clang ace-jump-mode)))
+ '(scroll-bar-mode (quote right))
  '(show-paren-mode t)
- '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
- '(term-default-bg-color "#fdf6e3")
- '(term-default-fg-color "#657b83")
  '(tool-bar-mode nil)
- '(vc-annotate-background "#2B2B2B")
- '(vc-annotate-color-map
-   (quote
-    ((20 . "#BC8383")
-     (40 . "#CC9393")
-     (60 . "#DFAF8F")
-     (80 . "#D0BF8F")
-     (100 . "#E0CF9F")
-     (120 . "#F0DFAF")
-     (140 . "#5F7F5F")
-     (160 . "#7F9F7F")
-     (180 . "#8FB28F")
-     (200 . "#9FC59F")
-     (220 . "#AFD8AF")
-     (240 . "#BFEBBF")
-     (260 . "#93E0E3")
-     (280 . "#6CA0A3")
-     (300 . "#7CB8BB")
-     (320 . "#8CD0D3")
-     (340 . "#94BFF3")
-     (360 . "#DC8CC3"))))
- '(vc-annotate-very-old-color "#DC8CC3")
- '(weechat-color-list
-   (quote
-    (unspecified "#fdf6e3" "#eee8d5" "#990A1B" "#dc322f" "#546E00" "#859900" "#7B6000" "#b58900" "#00629D" "#268bd2" "#93115C" "#d33682" "#00736F" "#2aa198" "#657b83" "#839496")))
- '(xterm-color-names
-   ["#eee8d5" "#dc322f" "#859900" "#b58900" "#268bd2" "#d33682" "#2aa198" "#073642"])
- '(xterm-color-names-bright
-   ["#fdf6e3" "#cb4b16" "#93a1a1" "#839496" "#657b83" "#6c71c4" "#586e75" "#002b36"]))
+ '(tooltip-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:family "Monaco" :foundry "nil" :slant normal :weight normal :height 120 :width normal)))))
