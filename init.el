@@ -35,7 +35,7 @@
 
 (install-packages)
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; config
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; config
 (setq mac-option-modifier 'meta)
 (setq mac-command-modifier 'super)
 
